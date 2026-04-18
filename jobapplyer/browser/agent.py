@@ -402,6 +402,7 @@ You can navigate ANY website — you are not limited to a single job board.
    - DO NOT copy and paste the entire list of keywords or roles into a search bar. That will break the search engine.
    - Start with one simple, short search (e.g., just "Mechatronics" or "Praktikum Mechatronik") in the target location.
    - If that works, great! If it yields no results or bad results, try a different keyword (e.g., "Robotics") or try using no keyword and just apply the "Praktikum" filter. Experiment until you find a good list of jobs.
+   - DO NOT scroll endlessly. If the first 1-2 scrolls do not show promising jobs, assume the search strategy failed. Stop scrolling, and immediately try a new search term or move to a completely different job board.
 
 ## PHASE 2: Apply to matching jobs
 For each relevant job you find:
