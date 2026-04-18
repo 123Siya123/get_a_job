@@ -18,12 +18,7 @@ from typing import Any, Callable
 
 from browser_use import Agent, Browser
 from browser_use.browser.profile import BrowserProfile
-from langchain_google_genai import ChatGoogleGenerativeAI
-
-# browser-use expects LLMs to have .provider and .model attributes.
-# ChatGoogleGenerativeAI doesn't expose .provider natively, so we patch it.
-if not hasattr(ChatGoogleGenerativeAI, 'provider'):
-    ChatGoogleGenerativeAI.provider = 'google'  # type: ignore[attr-defined]
+from browser_use.llm.google.chat import ChatGoogle
 
 from jobapplyer.config import AppSettings
 from jobapplyer.models import CandidateProfile, SearchPreferences
@@ -97,14 +92,14 @@ class BrowserAgent:
     # -- LLM -----------------------------------------------------------------
 
     def _get_llm(self, key_index: int = 0):
-        """Create a Gemini LLM instance using the rotating API keys."""
+        """Create a Gemini LLM instance using browser-use's native ChatGoogle."""
         keys = self.settings.gemini_api_keys
         if not keys:
             raise RuntimeError('No Gemini API keys configured in .env.local')
         key = keys[key_index % len(keys)]
-        return ChatGoogleGenerativeAI(
+        return ChatGoogle(
             model=self.settings.gemini_browser_model,
-            google_api_key=key,
+            api_key=key,
             temperature=0.1,
         )
 
