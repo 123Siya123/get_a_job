@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jobapplyer — AI Agent Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0e1a;
+      --card: rgba(15,22,40,0.92);
+      --border: rgba(100,180,255,0.12);
+      --text: #e8ecf4;
+      --muted: #8090b0;
+      --accent: #00ff88;
+      --accent2: #64b4ff;
+      --danger: #ff4466;
+      --warn: #ffaa22;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    .wrapper { max-width: 1100px; margin: 0 auto; padding: 24px 18px; }
+
+    /* Hero */
+    .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+    .hero h1 { font-size: 2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero p { color: var(--muted); margin: 8px 0 16px; line-height: 1.5; font-size: 0.92em; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    button {
+      padding: 10px 22px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.9em;
+      transition: all 0.2s;
+    }
+    button:hover { transform: translateY(-1px); filter: brightness(1.1); }
+    #startBtn { background: linear-gradient(135deg, #00cc66, #00ff88); color: #000; }
+    .secondary { background: rgba(100,180,255,0.15); color: var(--accent2); }
+    #stopBtn { background: rgba(255,68,102,0.2); color: var(--danger); }
+
+    .status-chip {
+      display: inline-block;
+      font-size: 0.75em;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .stat { font-size: 1.8em; font-weight: 700; }
+    .mono { font-family: 'IBM Plex Mono', monospace; font-size: 0.85em; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 18px; }
+
+    /* Agent Brain Panel */
+    .brain-panel {
+      margin-bottom: 18px;
+      background: linear-gradient(135deg, rgba(0,20,50,0.95), rgba(5,10,30,0.98));
+      border: 1px solid rgba(0,255,136,0.2);
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .brain-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .brain-header .pulse {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: #555;
+      transition: background 0.3s;
+    }
+    .brain-header .pulse.active {
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(0,255,136,0.5);
+      animation: pulse-anim 1.2s ease-in-out infinite;
+    }
+    @keyframes pulse-anim {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(0.85); }
+    }
+    .brain-title {
+      font-weight: 700;
+      font-size: 1.05em;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .brain-scroll {
+      max-height: 420px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(100,180,255,0.2) transparent;
+    }
+    .thought {
+      border-left: 3px solid rgba(100,180,255,0.2);
+      padding: 8px 14px;
+      margin-bottom: 6px;
+      border-radius: 0 8px 8px 0;
+      background: rgba(255,255,255,0.02);
+      transition: all 0.3s;
+    }
+    .thought:first-child {
+      border-left-color: var(--accent);
+      background: rgba(0,255,136,0.04);
+    }
+    .thought .step {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7em;
+      color: var(--accent2);
+      margin-right: 6px;
+    }
+    .thought .ts {
+      float: right;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65em;
+      color: #445;
+    }
+    .thought .text { color: #d0d8e8; font-size: 0.88em; line-height: 1.4; }
+    .thought .action { color: var(--muted); font-size: 0.8em; margin-top: 2px; font-family: 'IBM Plex Mono', monospace; }
+    .thought .result { color: #556; font-size: 0.72em; margin-top: 2px; font-style: italic; word-break: break-all; }
+
+    /* Tables */
+    .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88em; }
+    th { text-align: left; color: var(--muted); font-size: 0.78em; text-transform: uppercase; letter-spacing: 0.06em; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+    td { padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    h2 { font-size: 1.1em; margin-bottom: 12px; }
+
+    .status-pill { font-size: 0.78em; padding: 2px 8px; border-radius: 6px; background: rgba(0,255,136,0.1); color: var(--accent); }
+    .status-pill.danger { background: rgba(255,68,102,0.15); color: var(--danger); }
+    .status-pill.warn { background: rgba(255,170,34,0.15); color: var(--warn); }
+
+    .log-list { max-height: 300px; overflow-y: auto; }
+    .log-item { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.85em; }
+    .log-item strong { color: var(--accent2); }
+
+    .empty-msg { color: #445; font-style: italic; padding: 12px; text-align: center; }
+
+    @media (max-width: 700px) {
+      .hero, .columns { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <section class="hero">
+      <div class="card">
+        <h1>Jobapplyer</h1>
+        <p>AI browser agent that <strong>sees</strong> pages, <strong>reasons</strong>, and <strong>navigates</strong> like a human.<br>
+        A real Chrome window opens on your desktop — you can watch and intervene at any time.</p>
+        <div class="actions">
+          <button id="startBtn">▶ Start Agent</button>
+          <button id="runBtn" class="secondary">⟳ Run One Cycle</button>
+          <button id="stopBtn">■ Stop Agent</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="status-chip">Agent state</div>
+        <div id="agentStatus" class="stat">Idle</div>
+        <p id="agentSummary" style="color:var(--muted);margin-top:8px;font-size:0.9em;">Waiting to start.</p>
+        <div style="margin-top:14px;" class="mono">
+          <strong style="color:#fff;">Phase:</strong> <span id="agentStage" style="color:var(--accent);">—</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid" id="stats"></section>
+
+    <!-- LIVE Agent Brain -->
+    <section class="brain-panel">
+      <div class="brain-header">
+        <span class="pulse" id="brainPulse"></span>
+        <span class="brain-title">Agent Brain — Live Thoughts</span>
+      </div>
+      <div class="brain-scroll" id="brainScroll">
+        <div class="empty-msg" id="brainEmpty">Agent has not started. Click ▶ Start Agent to begin.</div>
+      </div>
+    </section>
+
+    <section class="columns">
+      <div class="card">
+        <h2>Applications</h2>
+        <div class="table-wrap">
+          <table><thead><tr><th>Company</th><th>Role</th><th>Status</th><th>Updated</th></tr></thead>
+          <tbody id="appsBody"></tbody></table>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Top Leads</h2>
+        <div class="table-wrap">
+          <table><thead><tr><th>Company</th><th>Role</th><th>Score</th></tr></thead>
+          <tbody id="jobsBody"></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:18px;">
+      <h2>Recent Events</h2>
+      <div class="log-list" id="eventsList"></div>
+    </section>
+  </div>
+
+  <script>
+    const brainScrollEl = document.getElementById('brainScroll');
+    const brainEmptyEl = document.getElementById('brainEmpty');
+    const brainPulseEl = document.getElementById('brainPulse');
+    let lastThoughtCount = 0;
+
+    function shortTime(ts) {
+      if (!ts) return '';
+      try { return new Date(ts).toLocaleTimeString('de-DE', { hour:'2-digit', minute:'2-digit', second:'2-digit' }); }
+      catch { return ts; }
+    }
+
+    function statusClass(s) {
+      if (['declined','blocked'].includes(s)) return 'danger';
+      if (['needs_action','ready_for_review'].includes(s)) return 'warn';
+      return '';
+    }
+
+    async function post(path) { return fetch(path, { method:'POST' }).then(r => r.json()); }
+
+    // Poll thoughts every 2 seconds for near-real-time updates
+    async function pollThoughts() {
+      try {
+        const data = await fetch('/api/agent/thoughts').then(r => r.json());
+        const items = data.items || [];
+        if (items.length === 0) return;
+
+        // Only re-render if there are new thoughts
+        if (items.length === lastThoughtCount) return;
+        lastThoughtCount = items.length;
+
+        brainEmptyEl.style.display = 'none';
+        brainScrollEl.innerHTML = items.slice().reverse().map(t => `
+          <div class="thought">
+            <span class="ts">${shortTime(t.timestamp)}</span>
+            <span class="step">Step ${t.step}</span>
+            <span class="text">${escHtml(t.thought || '')}</span>
+            ${t.action ? `<div class="action">→ ${escHtml(t.action)}</div>` : ''}
+            ${t.result ? `<div class="result">${escHtml(t.result.substring(0,300))}</div>` : ''}
+          </div>
+        `).join('');
+      } catch {}
+    }
+
+    function escHtml(s) {
+      const d = document.createElement('div');
+      d.textContent = s;
+      return d.innerHTML;
+    }
+
+    async function refresh() {
+      try {
+        const [summary, jobs, apps, events, agent] = await Promise.all([
+          fetch('/api/summary').then(r => r.json()),
+          fetch('/api/jobs').then(r => r.json()),
+          fetch('/api/applications').then(r => r.json()),
+          fetch('/api/events').then(r => r.json()),
+          fetch('/api/agent').then(r => r.json()),
+        ]);
+
+        document.getElementById('agentStatus').textContent = agent.running ? '🟢 Running' : 'Idle';
+        document.getElementById('agentSummary').textContent = agent.last_cycle_summary || 'No cycle finished yet.';
+        document.getElementById('agentStage').textContent = agent.current_stage || '—';
+        brainPulseEl.className = agent.running ? 'pulse active' : 'pulse';
+
+        const sc = Object.entries(summary.status_counts || {}).map(([s,c]) => `<div class="card"><div class="status-chip">${s}</div><div class="stat">${c}</div></div>`).join('');
+        document.getElementById('stats').innerHTML = `
+          <div class="card"><div class="status-chip">Jobs</div><div class="stat">${summary.jobs||0}</div></div>
+          <div class="card"><div class="status-chip">Applications</div><div class="stat">${summary.applications||0}</div></div>
+          <div class="card"><div class="status-chip">Events</div><div class="stat">${summary.events||0}</div></div>
+          ${sc}
+        `;
+
+        document.getElementById('appsBody').innerHTML = (apps.items||[]).map(r => `
+          <tr><td>${escHtml(r.company||'')}</td><td>${escHtml(r.title||'')}</td>
+          <td><span class="status-pill ${statusClass(r.status)}">${r.status||''}</span></td>
+          <td class="mono">${r.last_event_at||''}</td></tr>
+        `).join('');
+
+        document.getElementById('jobsBody').innerHTML = (jobs.items||[]).map(r => `
+          <tr><td>${escHtml(r.company||'')}</td><td>${escHtml(r.title||'')}</td>
+          <td class="mono">${(r.score||0).toFixed(3)}</td></tr>
+        `).join('');
+
+        document.getElementById('eventsList').innerHTML = (events.items||[]).map(r => `
+          <div class="log-item"><strong>${escHtml(r.event_type||'')}</strong> ${escHtml(r.message||'')}
+          <div class="mono" style="color:#445;">${r.created_at||''}</div></div>
+        `).join('');
+      } catch {}
+    }
+
+    document.getElementById('startBtn').addEventListener('click', async () => { await post('/api/agent/start'); refresh(); });
+    document.getElementById('stopBtn').addEventListener('click', async () => { await post('/api/agent/stop'); refresh(); });
+    document.getElementById('runBtn').addEventListener('click', async () => {
+      post('/api/agent/run-once'); // fire-and-forget, don't await
+      refresh();
+    });
+
+    // Two separate polling loops:
+    // 1. Thoughts poll fast (every 2s) for real-time brain updates
+    // 2. Full dashboard refresh every 5s
+    setInterval(pollThoughts, 2000);
+    setInterval(refresh, 5000);
+    refresh();
+    pollThoughts();
+  </script>
+</body>
+</html>

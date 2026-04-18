@@ -1,0 +1,300 @@
+[
+  {
+    "name": "ASML",
+    "sector": "chip making",
+    "careers_url": "https://www.asml.com/en/careers/find-your-job",
+    "location_hint": "Europe",
+    "prestige": 0.96,
+    "tags": [
+      "semiconductor",
+      "hardware",
+      "manufacturing"
+    ]
+  },
+  {
+    "name": "Infineon",
+    "sector": "chip making",
+    "careers_url": "https://jobs.infineon.com/",
+    "location_hint": "Germany",
+    "prestige": 0.94,
+    "tags": [
+      "semiconductor",
+      "mechatronics",
+      "automation"
+    ]
+  },
+  {
+    "name": "NXP",
+    "sector": "chip making",
+    "careers_url": "https://nxp.wd3.myworkdayjobs.com/careers",
+    "location_hint": "Europe",
+    "prestige": 0.9,
+    "tags": [
+      "semiconductor",
+      "embedded"
+    ]
+  },
+  {
+    "name": "Bosch",
+    "sector": "automotive",
+    "careers_url": "https://jobs.smartrecruiters.com/BoschGroup",
+    "location_hint": "Germany",
+    "prestige": 0.92,
+    "tags": [
+      "manufacturing",
+      "robotics",
+      "automotive"
+    ]
+  },
+  {
+    "name": "Siemens",
+    "sector": "manufacturing",
+    "careers_url": "https://jobs.siemens.com/careers",
+    "location_hint": "Germany",
+    "prestige": 0.92,
+    "tags": [
+      "automation",
+      "hardware",
+      "software"
+    ]
+  },
+  {
+    "name": "Continental",
+    "sector": "automotive",
+    "careers_url": "https://jobs.continental.com/en/",
+    "location_hint": "Germany",
+    "prestige": 0.88,
+    "tags": [
+      "automotive",
+      "embedded",
+      "manufacturing"
+    ]
+  },
+  {
+    "name": "BMW Group",
+    "sector": "automotive",
+    "careers_url": "https://www.bmwgroup.jobs/en.html",
+    "location_hint": "Germany",
+    "prestige": 0.91,
+    "tags": [
+      "automotive",
+      "manufacturing",
+      "mechatronics"
+    ]
+  },
+  {
+    "name": "Mercedes-Benz",
+    "sector": "automotive",
+    "careers_url": "https://jobs.mercedes-benz.com/en/",
+    "location_hint": "Germany",
+    "prestige": 0.9,
+    "tags": [
+      "automotive",
+      "software",
+      "hardware"
+    ]
+  },
+  {
+    "name": "Porsche",
+    "sector": "automotive",
+    "careers_url": "https://jobs.porsche.com/index.php?ac=jobad&id=",
+    "location_hint": "Germany",
+    "prestige": 0.91,
+    "tags": [
+      "automotive",
+      "manufacturing"
+    ]
+  },
+  {
+    "name": "Airbus",
+    "sector": "aerospace",
+    "careers_url": "https://ag.wd3.myworkdayjobs.com/Airbus",
+    "location_hint": "Europe",
+    "prestige": 0.96,
+    "tags": [
+      "aerospace",
+      "manufacturing",
+      "software"
+    ]
+  },
+  {
+    "name": "MTU Aero Engines",
+    "sector": "aerospace",
+    "careers_url": "https://karriere.mtu.de/",
+    "location_hint": "Germany",
+    "prestige": 0.88,
+    "tags": [
+      "aerospace",
+      "mechatronics",
+      "manufacturing"
+    ]
+  },
+  {
+    "name": "OHB",
+    "sector": "aerospace",
+    "careers_url": "https://career.ohb.de/en/jobs/",
+    "location_hint": "Germany",
+    "prestige": 0.82,
+    "tags": [
+      "space",
+      "robotics",
+      "hardware"
+    ]
+  },
+  {
+    "name": "ArianeGroup",
+    "sector": "rocketry",
+    "careers_url": "https://careers.ariane.group/home",
+    "location_hint": "Europe",
+    "prestige": 0.91,
+    "tags": [
+      "rocketry",
+      "manufacturing",
+      "propulsion"
+    ]
+  },
+  {
+    "name": "Isar Aerospace",
+    "sector": "rocketry",
+    "careers_url": "https://jobs.ashbyhq.com/isar-aerospace",
+    "location_hint": "Germany",
+    "prestige": 0.86,
+    "tags": [
+      "rocketry",
+      "mechatronics",
+      "manufacturing"
+    ]
+  },
+  {
+    "name": "Rocket Factory Augsburg",
+    "sector": "rocketry",
+    "careers_url": "https://rocketfactory.jobs.personio.de/",
+    "location_hint": "Germany",
+    "prestige": 0.83,
+    "tags": [
+      "rocketry",
+      "hardware",
+      "manufacturing"
+    ]
+  },
+  {
+    "name": "SAP",
+    "sector": "software",
+    "careers_url": "https://jobs.sap.com/",
+    "location_hint": "Germany",
+    "prestige": 0.93,
+    "tags": [
+      "software",
+      "student",
+      "internship"
+    ]
+  },
+  {
+    "name": "Microsoft Germany",
+    "sector": "software",
+    "careers_url": "https://jobs.careers.microsoft.com/global/en/search",
+    "location_hint": "Germany",
+    "prestige": 0.95,
+    "tags": [
+      "software",
+      "hardware",
+      "student"
+    ]
+  },
+  {
+    "name": "Apple",
+    "sector": "hardware",
+    "careers_url": "https://jobs.apple.com/en-us/search",
+    "location_hint": "Europe",
+    "prestige": 0.97,
+    "tags": [
+      "hardware",
+      "software",
+      "manufacturing"
+    ]
+  },
+  {
+    "name": "ABB",
+    "sector": "manufacturing",
+    "careers_url": "https://careers.abb/global/en",
+    "location_hint": "Europe",
+    "prestige": 0.87,
+    "tags": [
+      "automation",
+      "robotics",
+      "mechatronics"
+    ]
+  },
+  {
+    "name": "KION Group",
+    "sector": "manufacturing",
+    "careers_url": "https://careers.kiongroup.com/en",
+    "location_hint": "Frankfurt am Main",
+    "prestige": 0.8,
+    "tags": [
+      "Frankfurt",
+      "industrial automation",
+      "mechatronics"
+    ]
+  },
+  {
+    "name": "Huawei Europe",
+    "sector": "hardware",
+    "careers_url": "https://career.huawei.com/reccampportal/portal5/index.html",
+    "location_hint": "Europe",
+    "prestige": 0.86,
+    "tags": [
+      "hardware",
+      "software",
+      "chip"
+    ]
+  },
+  {
+    "name": "CATL",
+    "sector": "manufacturing",
+    "careers_url": "https://career.catl.com/en",
+    "location_hint": "Europe",
+    "prestige": 0.85,
+    "tags": [
+      "battery",
+      "manufacturing",
+      "automation"
+    ]
+  },
+  {
+    "name": "BYD Europe",
+    "sector": "automotive",
+    "careers_url": "https://careers.byd.com/",
+    "location_hint": "Europe",
+    "prestige": 0.8,
+    "tags": [
+      "automotive",
+      "hardware",
+      "manufacturing"
+    ]
+  },
+  {
+    "name": "DJI",
+    "sector": "hardware",
+    "careers_url": "https://we.dji.com/en/social?from=careers",
+    "location_hint": "China",
+    "prestige": 0.88,
+    "tags": [
+      "robotics",
+      "embedded",
+      "manufacturing"
+    ]
+  },
+  {
+    "name": "Zijin Mining",
+    "sector": "mining",
+    "careers_url": "https://www.zijinmining.com/job",
+    "location_hint": "China",
+    "prestige": 0.74,
+    "tags": [
+      "mining",
+      "automation",
+      "manufacturing"
+    ]
+  }
+]

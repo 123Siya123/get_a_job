@@ -1,0 +1,40 @@
+# Profile Description
+
+I am a first-semester Mechatronics Student at the THM (Technische Hochschule Mittelhessen) in Friedberg, close to Frankfurt. I am currently in the Summer Semester.
+
+# Professional Goals
+I am actively looking for Internships or Working Student jobs. 
+My target roles are focused on Mechatronics and related fields.
+
+# Availability
+- For **Working Student (Werkstudent)** roles: I can start immediately and work alongside my studies.
+- For **Internship (Praktikum)** roles: I am available for full-time internships during the semester break (vorlesungsfreie Zeit). The summer semester lectures end on **17.07.2026**. I am fully available from mid-July until the end of September / beginning of October 2026.
+
+# Practical Experience & Skills
+While in my first semester, I have built a strong practical foundation in programming and AI logic. I independently developed a local "3D House Designer" software orchestrated by multiple AI agents (where an Architect agent dispatches tasks to Builder and Inspector agents to iteratively design 3D structures). 
+Key skills to mention reasonably (without overstating my seniority):
+- Python (Basic)
+- AI Prompt Engineering
+- Designing local AI agentic systems
+
+# Target Industries & Companies
+I am seeking opportunities at prestigious companies in the following sectors:
+- Chip making / Semiconductors
+- Software Engineering
+- Robotics
+- Hardware Engineering
+- Manufacturing
+- Mining
+- Automotive
+- Aerospace
+- Rocketry
+
+# Geographic Preferences
+- Europe
+- United States
+- China
+
+# Cover Letter Style Guidelines
+- Tone: Professional, enthusiastic, and confident.
+- Focus: Highlight my theoretical foundation from my first semester at THM and my eagerness to apply it in a practical, cutting-edge environment. Emphasize my drive to work at prestigious, industry-leading companies.
+- Format: Keep it concise but impactful. Standard formal business letter format unless the application specifies otherwise.

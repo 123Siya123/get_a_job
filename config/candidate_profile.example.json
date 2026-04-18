@@ -1,0 +1,36 @@
+{
+  "first_name": "YourFirstName",
+  "last_name": "YourLastName",
+  "email": "you@example.com",
+  "phone": "+49 000 000000",
+  "city": "Frankfurt am Main",
+  "country": "Germany",
+  "postal_code": "60311",
+  "address_line": "Street 1",
+  "linkedin_url": "https://www.linkedin.com/in/your-profile",
+  "github_url": "https://github.com/your-handle",
+  "portfolio_url": "",
+  "university": "Your University",
+  "degree_program": "Mechatronics",
+  "graduation_date": "2027-09",
+  "summary": "Mechatronics student interested in semiconductors, robotics, manufacturing, and aerospace internships or working student roles.",
+  "skills": [
+    "Python",
+    "C++",
+    "Embedded Systems",
+    "CAD",
+    "Control Systems",
+    "Robotics"
+  ],
+  "languages": [
+    "English",
+    "German"
+  ],
+  "authorized_to_work_in_germany": true,
+  "need_visa_sponsorship": false,
+  "available_from": "2026-05-01",
+  "desired_salary_eur_monthly": "negotiable",
+  "resume_path": "C:/Users/Siya/Desktop/Projects/Jobapplyer/config/resume.pdf",
+  "cover_letter_path": "",
+  "cover_letter_template": "Hello {company}, I am applying for the {title} role because it fits my mechatronics background and hands-on interest in {sector}."
+}

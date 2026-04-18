@@ -1,0 +1,69 @@
+{
+  "roles": [
+    "Working Student Mechatronics",
+    "Werkstudent Mechatronik",
+    "Internship Mechatronics",
+    "Praktikum Mechatronik",
+    "Working Student Robotics",
+    "Intern Hardware Engineering",
+    "Intern Manufacturing Engineering"
+  ],
+  "employment_types": [
+    "internship",
+    "working student",
+    "werkstudent",
+    "praktikum",
+    "student worker"
+  ],
+  "keywords": [
+    "mechatronics",
+    "mechatronik",
+    "robotics",
+    "automation",
+    "controls",
+    "embedded",
+    "hardware",
+    "software",
+    "manufacturing",
+    "semiconductor",
+    "chip",
+    "automotive",
+    "aerospace",
+    "rocketry",
+    "mining"
+  ],
+  "locations": [
+    "Frankfurt am Main",
+    "Darmstadt",
+    "Wiesbaden",
+    "Mainz",
+    "Offenbach",
+    "Hanau",
+    "Mannheim",
+    "Karlsruhe",
+    "Stuttgart",
+    "Munich",
+    "Berlin",
+    "Germany",
+    "Europe",
+    "China",
+    "United States"
+  ],
+  "sectors": [
+    "chip making",
+    "software",
+    "hardware",
+    "manufacturing",
+    "mining",
+    "automotive",
+    "aerospace",
+    "rocketry"
+  ],
+  "preferred_languages": [
+    "English",
+    "German"
+  ],
+  "minimum_score": 0.40,
+  "prestige_bias": false,
+  "max_company_visits_per_cycle": 50
+}

@@ -1,0 +1,34 @@
+{
+  "first_name": "Siyamthanda",
+  "last_name": "Kuhlmann",
+  "email": "siya.jan.k@gmail.com",
+  "phone": "+49 15752395551",
+  "city": "Friedberg (Hessen)",
+  "country": "Germany",
+  "postal_code": "66312",
+  "address_line": "Schirngasse 2",
+  "linkedin_url": "https://www.linkedin.com/in/siyamthanda-kuhlmann-251a79284/",
+  "github_url": "https://github.com/123Siya123",
+  "portfolio_url": "",
+  "university": "Technische Hochschule Mittelhessen",
+  "degree_program": "B.Eng Mechatronics",
+  "graduation_date": "2027-09",
+  "summary": "First-semester Mechatronics student at THM with hands-on experience building complex AI agentic systems locally in Python (e.g., a 3D architecture orchestration tool). Interested in internships and working student roles in mechatronics, hardware, robotics, and aerospace.",
+  "skills": [
+    "Python (Basic)",
+    "Agentic System Building",
+    "AI Prompt Engineering",
+    "Local AI Orchestration"
+  ],
+  "languages": [
+    "English",
+    "German"
+  ],
+  "authorized_to_work_in_germany": true,
+  "need_visa_sponsorship": false,
+  "available_from": "Immediate (Working Student) or 2026-07-17 (Internship)",
+  "desired_salary_eur_monthly": "negotiable",
+  "resume_path": "config/resume.pdf",
+  "cover_letter_path": "",
+  "cover_letter_template": "Hello {company}, I am applying for the {title} role because it fits my mechatronics studies and interest in {sector}."
+}
