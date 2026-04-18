@@ -430,10 +430,10 @@ For each relevant job you find:
       - Availability: {profile.available_from}
    e. Check any privacy/consent checkboxes
    f. DO NOT submit the application yet — stop before the final submit button so the user can review
-   g. After processing a job, go back to the listings and continue with the next job.
+   g. **STOP AFTER ONE APPLICATION:** Once you have successfully processed ONE job application and reached the review stage, STOP the task immediately and return your results. Do not apply to multiple jobs in a row.
 
-## PHASE 3: Move to the next job board
-When you have exhausted the current site (no more relevant results, or you've scrolled through all pages),
+## PHASE 3: Move to the next job board (If no jobs found)
+If you have exhausted the current site (no relevant results found),
 **decide on your own where to go next**. Think about:
 - What kind of jobs is the user looking for? ({roles_str})
 - What sites haven't you tried yet?
