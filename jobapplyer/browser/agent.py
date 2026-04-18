@@ -179,6 +179,7 @@ class BrowserAgent:
         profile: CandidateProfile,
         preferences: SearchPreferences,
         search_url: str,
+        user_prompt: str = '',
     ) -> dict[str, Any]:
         """
         Main agentic loop: Open a real browser, go to a job board,
@@ -188,7 +189,7 @@ class BrowserAgent:
         self._stop_requested = False
         self._record_thought('Starting job search cycle', f'Opening {search_url}')
 
-        task_prompt = self._build_search_task(profile, preferences, search_url)
+        task_prompt = self._build_search_task(profile, preferences, search_url, user_prompt)
         results: dict[str, Any] = {'jobs_found': 0, 'applications_attempted': 0, 'errors': []}
 
         try:
@@ -364,6 +365,7 @@ If no relevant emails are found, return an empty array.
         profile: CandidateProfile,
         preferences: SearchPreferences,
         search_url: str,
+        user_prompt: str = '',
     ) -> str:
         roles_str = ', '.join(preferences.roles[:5])
         keywords_str = ', '.join(preferences.keywords[:8])
@@ -375,10 +377,18 @@ If no relevant emails are found, return an empty array.
         if resume_path and resume_path.exists():
             resume_instruction = f'\n- When a file upload for CV/Resume is required, upload this file: {resume_path.resolve()}'
 
+        custom_instructions = ''
+        if user_prompt.strip():
+            custom_instructions = f"""
+## EXPLICIT USER INSTRUCTIONS
+The user has provided the following specific instructions for this run. You MUST prioritize and follow these instructions carefully:
+"{user_prompt.strip()}"
+"""
+
         return f"""
 You are an autonomous AI job application assistant helping {profile.full_name} find and apply to jobs.
 You can navigate ANY website — you are not limited to a single job board.
-
+{custom_instructions}
 ## PHASE 1: Start at the primary job board
 1. Go to {search_url}
 2. If there are cookie banners, privacy popups, or consent dialogs — ACCEPT/DISMISS them first.

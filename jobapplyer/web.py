@@ -79,4 +79,15 @@ def create_app() -> FastAPI:
         thoughts = request.app.state.orchestrator.get_agent_thoughts(limit=30)
         return JSONResponse({'items': thoughts})
 
+    @app.get('/api/agent/prompt')
+    async def agent_prompt_get(request: Request) -> JSONResponse:
+        prompt = request.app.state.orchestrator.get_user_prompt()
+        return JSONResponse({'prompt': prompt})
+
+    @app.post('/api/agent/prompt')
+    async def agent_prompt_set(request: Request) -> JSONResponse:
+        body = await request.json()
+        request.app.state.orchestrator.set_user_prompt(body.get('prompt', ''))
+        return JSONResponse({'ok': True})
+
     return app

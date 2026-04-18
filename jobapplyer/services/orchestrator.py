@@ -20,6 +20,7 @@ class JobApplyerOrchestrator:
         self.agent.set_thought_callback(self._on_agent_thought)
         self._task: asyncio.Task | None = None
         self._lock = asyncio.Lock()
+        self._user_prompt: str = ''
 
     def _on_agent_thought(self, thought: AgentThought) -> None:
         """Called every time the AI agent has a new thought or takes an action."""
@@ -92,6 +93,7 @@ class JobApplyerOrchestrator:
             profile=profile,
             preferences=preferences,
             search_url=self.settings.job_tab_start_url,
+            user_prompt=self._user_prompt,
         )
 
         # --- Phase 2: Check Gmail for responses ---
@@ -131,3 +133,9 @@ class JobApplyerOrchestrator:
 
     def get_agent_thoughts(self, limit: int = 30) -> list[dict[str, Any]]:
         return self.agent.get_recent_thoughts(limit)
+
+    def get_user_prompt(self) -> str:
+        return self._user_prompt
+
+    def set_user_prompt(self, prompt: str) -> None:
+        self._user_prompt = prompt
