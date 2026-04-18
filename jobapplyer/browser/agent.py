@@ -212,7 +212,7 @@ class BrowserAgent:
             self._record_thought('Agent brain initialized with Gemini', 'Launching visible browser...')
 
             # Run — browser-use will open a REAL window and start navigating
-            history = await agent.run(max_steps=40)
+            history = await agent.run(max_steps=100)
 
             self._record_thought(
                 'Agent cycle completed',
@@ -368,6 +368,7 @@ If no relevant emails are found, return an empty array.
         roles_str = ', '.join(preferences.roles[:5])
         keywords_str = ', '.join(preferences.keywords[:8])
         locations_str = ', '.join(preferences.locations[:6])
+        employment_types_str = ', '.join(preferences.employment_types)
 
         resume_path = profile.resume_file()
         resume_instruction = ''
@@ -375,17 +376,20 @@ If no relevant emails are found, return an empty array.
             resume_instruction = f'\n- When a file upload for CV/Resume is required, upload this file: {resume_path.resolve()}'
 
         return f"""
-You are an AI job application assistant helping {profile.full_name} find and apply to jobs.
+You are an autonomous AI job application assistant helping {profile.full_name} find and apply to jobs.
+You can navigate ANY website — you are not limited to a single job board.
 
-## YOUR TASK
+## PHASE 1: Start at the primary job board
 1. Go to {search_url}
 2. If there are cookie banners, privacy popups, or consent dialogs — ACCEPT/DISMISS them first.
 3. Search for jobs matching these criteria:
    - Roles: {roles_str}
    - Keywords: {keywords_str}
    - Locations: {locations_str}
-   - Employment types: {', '.join(preferences.employment_types)}
-4. Browse through the job listings. For each relevant job that matches the criteria:
+   - Employment types: {employment_types_str}
+
+## PHASE 2: Apply to matching jobs
+For each relevant job you find:
    a. Click on it to open the full job description
    b. Look for an "Apply" or "Bewerben" button
    c. Fill out the application form with these details:
@@ -411,16 +415,40 @@ You are an AI job application assistant helping {profile.full_name} find and app
       - Availability: {profile.available_from}
    e. Check any privacy/consent checkboxes
    f. DO NOT submit the application yet — stop before the final submit button so the user can review
+   g. After processing a job, go back to the listings and continue with the next job.
 
-5. After processing jobs, go back to the listings and continue with the next job.
+## PHASE 3: Move to the next job board
+When you have exhausted the current site (no more relevant results, or you've scrolled through all pages),
+**decide on your own where to go next**. Think about:
+- What kind of jobs is the user looking for? ({roles_str})
+- What sites haven't you tried yet?
+- Would a company career page be more direct?
+
+**Suggested sites to explore (pick intelligently based on context):**
+- https://de.indeed.com — search for "{keywords_str}" in "{locations_str}"
+- https://www.linkedin.com/jobs — search for relevant roles
+- https://www.glassdoor.de — check for internship postings
+- https://www.xing.com/jobs — German job market
+- https://www.karriere.de — German career portal
+- Company career pages directly (e.g., Siemens, Bosch, Continental, ABB, KUKA, Festo, Schaeffler)
+  Navigate to their careers page and search for internships/working student positions.
+
+**When deciding where to go next:**
+1. Consider what you already tried — don't revisit the same site.
+2. Think about which sites are most likely to have {employment_types_str} positions in {keywords_str}.
+3. If you found company names on the previous site that looked promising, go directly to their career page.
 
 ## IMPORTANT RULES
-- Always handle cookie banners and popups first
-- Skip jobs that require senior experience or many years of professional work
-- Focus on internships (Praktikum) and working student (Werkstudent) positions
-- If a page fails to load or shows an error, skip it and move to the next job
-- Be patient — wait for pages to fully load before interacting
-- If you encounter a CAPTCHA, stop and note it in your response
+- Always handle cookie banners and popups first.
+- **Stepstone-specific:** Use the "Anstellungsart" (Employment type) filter on the left sidebar and select "Praktikum" and/or "Werkstudent" to filter out irrelevant full-time jobs.
+- **Exact Phrases:** If search results are too broad, try exact phrases like `"Praktikum Mechatronik"` in the search bar.
+- Skip jobs that clearly require senior experience or many years of professional work.
+- Focus on internships (Praktikum) and working student (Werkstudent) positions. However, if the job site's search is inaccurate, **click on jobs that look relevant even if the title doesn't perfectly say 'Internship'**, check the description, and if it's entry-level or student-friendly, apply.
+- If a page fails to load or shows an error, skip it and move on.
+- Be patient — wait for pages to fully load before interacting.
+- If you encounter a CAPTCHA, stop and note it in your response.
+- When an "Apply" button takes you to an external company website, follow it and fill out the form there.
+- Keep track of which sites you've visited. When you finish one, navigate to the next.
 """
 
     def _build_apply_task(
