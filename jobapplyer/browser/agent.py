@@ -392,11 +392,16 @@ You can navigate ANY website — you are not limited to a single job board.
 ## PHASE 1: Start at the primary job board
 1. Go to {search_url}
 2. If there are cookie banners, privacy popups, or consent dialogs — ACCEPT/DISMISS them first.
-3. Search for jobs matching these criteria:
-   - Roles: {roles_str}
+3. Your goal is to find jobs that match the user's profile:
+   - Target Roles: {roles_str}
    - Keywords: {keywords_str}
    - Locations: {locations_str}
    - Employment types: {employment_types_str}
+
+   **SEARCH LIKE A HUMAN:**
+   - DO NOT copy and paste the entire list of keywords or roles into a search bar. That will break the search engine.
+   - Start with one simple, short search (e.g., just "Mechatronics" or "Praktikum Mechatronik") in the target location.
+   - If that works, great! If it yields no results or bad results, try a different keyword (e.g., "Robotics") or try using no keyword and just apply the "Praktikum" filter. Experiment until you find a good list of jobs.
 
 ## PHASE 2: Apply to matching jobs
 For each relevant job you find:
