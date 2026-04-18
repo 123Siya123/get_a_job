@@ -92,11 +92,21 @@ class BrowserAgent:
     # -- LLM -----------------------------------------------------------------
 
     def _get_llm(self, key_index: int = 0):
-        """Create a Gemini LLM instance using browser-use's native ChatGoogle."""
+        """Create an LLM instance based on provider settings."""
+        if self.settings.ai_provider.lower() == 'local':
+            from langchain_openai import ChatOpenAI
+            return ChatOpenAI(
+                model=self.settings.local_model_name,
+                base_url=self.settings.local_model_url,
+                api_key='not-needed',
+                temperature=0.1,
+            )
+
         keys = self.settings.gemini_api_keys
         if not keys:
             raise RuntimeError('No Gemini API keys configured in .env.local')
         key = keys[key_index % len(keys)]
+        from browser_use.llm.google.chat import ChatGoogle
         return ChatGoogle(
             model=self.settings.gemini_browser_model,
             api_key=key,

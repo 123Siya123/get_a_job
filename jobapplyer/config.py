@@ -16,6 +16,10 @@ class AppSettings(BaseSettings):
     export_dir: Path = Path('runtime/exports')
     log_dir: Path = Path('runtime/logs')
 
+    ai_provider: str = Field(default='gemini', validation_alias='AI_PROVIDER')
+    local_model_url: str = Field(default='http://127.0.0.1:1234/v1', validation_alias='LOCAL_MODEL_URL')
+    local_model_name: str = Field(default='google/gemma-4-e2b', validation_alias='LOCAL_MODEL_NAME')
+
     gemini_api_keys_raw: str = Field(default='', validation_alias='GEMINI_API_KEYS')
     gemini_planner_model: str = Field(default='gemini-3.1-flash-lite-preview', validation_alias='GEMINI_PLANNER_MODEL')
     gemini_browser_model: str = Field(default='gemini-3-flash-preview', validation_alias='GEMINI_BROWSER_MODEL')
