@@ -174,6 +174,11 @@ class BrowserAgent:
 
     # -- Main task methods ---------------------------------------------------
 
+    async def get_or_create_browser(self):
+        if not getattr(self, '_persistent_browser', None):
+            self._persistent_browser = Browser(browser_profile=self._make_browser_profile())
+        return self._persistent_browser
+
     async def search_and_apply(
         self,
         profile: CandidateProfile,
@@ -182,8 +187,8 @@ class BrowserAgent:
         user_prompt: str = '',
     ) -> dict[str, Any]:
         """
-        Main agentic loop: Open a real browser, go to a job board,
-        search for matching jobs, and apply to them one by one.
+        Main agentic loop: Uses a persistent browser, goes to a job board,
+        searches for matching jobs, and applies.
         """
         self.clear_thoughts()
         self._stop_requested = False
@@ -194,9 +199,7 @@ class BrowserAgent:
 
         try:
             llm = self._get_llm(0)
-            browser_profile = self._make_browser_profile()
-
-            browser = Browser(browser_profile=browser_profile)
+            browser = await self.get_or_create_browser()
             self._browser = browser
 
             agent = Agent(
@@ -229,13 +232,6 @@ class BrowserAgent:
             self._record_thought('Error during agent execution', 'Handling error', error_msg)
             results['errors'].append(error_msg)
             logger.exception('Browser agent error')
-        finally:
-            if self._browser:
-                try:
-                    await self._browser.close()
-                except Exception:
-                    pass
-                self._browser = None
 
         return results
 
@@ -254,8 +250,7 @@ class BrowserAgent:
 
         try:
             llm = self._get_llm(0)
-            browser_profile = self._make_browser_profile()
-            browser = Browser(browser_profile=browser_profile)
+            browser = await self.get_or_create_browser()
             self._browser = browser
 
             agent = Agent(
@@ -286,13 +281,6 @@ class BrowserAgent:
         except Exception as exc:
             self._record_thought(f'Error applying to {company}', str(exc))
             return {'status': 'blocked', 'mode': 'browser_agent_error', 'details': str(exc)}
-        finally:
-            if self._browser:
-                try:
-                    await self._browser.close()
-                except Exception:
-                    pass
-                self._browser = None
 
     async def check_gmail(self, gmail_url: str) -> dict[str, Any]:
         """Check Gmail for application responses."""
@@ -300,31 +288,27 @@ class BrowserAgent:
         self._record_thought('Checking Gmail for application responses', f'Opening {gmail_url}')
 
         task_prompt = f"""
-Go to {gmail_url}.
+You are running in a continuous background loop in the SAME browser window as the job search.
+DO NOT close any existing tabs.
 
-If there is a cookie consent or login wall, handle it appropriately.
-If already logged in, look through the inbox for emails related to job applications.
+1. Open a NEW TAB and go to {gmail_url}.
+2. If there is a cookie consent or login wall, handle it appropriately.
+3. If already logged in, look through the main inbox for ONLY NEW (UNREAD) emails related to job applications.
+4. If there are no new/unread emails, you are done immediately. Return an empty array.
 
-Look for emails from companies about:
-- Application received confirmations
-- Interview invitations
-- Rejection notices
-- Next steps or assessments
-
-For each relevant email found, extract:
+If you find NEW relevant emails, extract:
 - Company name
 - Job title (if mentioned)
 - Status: one of "in_review", "interview", "declined", "offer", "needs_action"
 - Brief summary
 
 Return the results as a JSON array.
-If no relevant emails are found, return an empty array.
+When you are finished, leave the browser open so the main agent can resume applying for jobs.
 """
 
         try:
             llm = self._get_llm(1)
-            browser_profile = self._make_browser_profile()
-            browser = Browser(browser_profile=browser_profile)
+            browser = await self.get_or_create_browser()
             self._browser = browser
 
             agent = Agent(
@@ -350,13 +334,6 @@ If no relevant emails are found, return an empty array.
         except Exception as exc:
             self._record_thought('Gmail check failed', str(exc))
             return {'status': 'error', 'error': str(exc)}
-        finally:
-            if self._browser:
-                try:
-                    await self._browser.close()
-                except Exception:
-                    pass
-                self._browser = None
 
     # -- Prompt builders -----------------------------------------------------
 
@@ -389,8 +366,8 @@ The user has provided the following specific instructions for this run. You MUST
 You are an autonomous AI job application assistant helping {profile.full_name} find and apply to jobs.
 You can navigate ANY website — you are not limited to a single job board.
 {custom_instructions}
-## PHASE 1: Start at the primary job board
-1. Go to {search_url}
+## PHASE 1: Start or continue at the job board
+1. Switch to an existing job search tab if one is open, OR open a new tab and go to {search_url}. DO NOT close Gmail tabs if they are open.
 2. If there are cookie banners, privacy popups, or consent dialogs — ACCEPT/DISMISS them first.
 3. Your goal is to find jobs that match the user's profile:
    - Target Roles: {roles_str}
