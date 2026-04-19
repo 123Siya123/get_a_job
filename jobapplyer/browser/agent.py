@@ -100,6 +100,8 @@ class BrowserAgent:
                 base_url=self.settings.local_model_url,
                 api_key='not-needed',
                 temperature=0.1,
+                add_schema_to_system_prompt=True,
+                dont_force_structured_output=True,
             )
 
         keys = self.settings.gemini_api_keys
