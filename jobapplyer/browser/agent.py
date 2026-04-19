@@ -18,7 +18,7 @@ from typing import Any, Callable
 
 from browser_use import Agent, Browser
 from browser_use.browser.profile import BrowserProfile
-from browser_use.llm.google.chat import ChatGoogle
+
 
 from jobapplyer.config import AppSettings
 from jobapplyer.models import CandidateProfile, SearchPreferences
@@ -94,7 +94,7 @@ class BrowserAgent:
     def _get_llm(self, key_index: int = 0):
         """Create an LLM instance based on provider settings."""
         if self.settings.ai_provider.lower() == 'local':
-            from langchain_openai import ChatOpenAI
+            from browser_use.llm import ChatOpenAI
             return ChatOpenAI(
                 model=self.settings.local_model_name,
                 base_url=self.settings.local_model_url,
