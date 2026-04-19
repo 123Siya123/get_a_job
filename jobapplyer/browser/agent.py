@@ -214,12 +214,13 @@ class BrowserAgent:
             browser = await self.get_or_create_browser()
             self._browser = browser
 
+            use_vision_flag = self.settings.ai_provider.lower() != 'local'
             agent = Agent(
                 task=task_prompt,
                 llm=llm,
                 browser=browser,
                 max_actions_per_step=3,
-                use_vision=True,
+                use_vision=use_vision_flag,
                 demo_mode=True,                            # highlights clicks
                 register_new_step_callback=self._on_step,  # LIVE thought streaming
                 register_should_stop_callback=self._should_stop,
@@ -265,12 +266,13 @@ class BrowserAgent:
             browser = await self.get_or_create_browser()
             self._browser = browser
 
+            use_vision_flag = self.settings.ai_provider.lower() != 'local'
             agent = Agent(
                 task=task_prompt,
                 llm=llm,
                 browser=browser,
                 max_actions_per_step=3,
-                use_vision=True,
+                use_vision=use_vision_flag,
                 demo_mode=True,
                 register_new_step_callback=self._on_step,
                 register_should_stop_callback=self._should_stop,
@@ -323,12 +325,13 @@ When you are finished, leave the browser open so the main agent can resume apply
             browser = await self.get_or_create_browser()
             self._browser = browser
 
+            use_vision_flag = self.settings.ai_provider.lower() != 'local'
             agent = Agent(
                 task=task_prompt,
                 llm=llm,
                 browser=browser,
                 max_actions_per_step=2,
-                use_vision=True,
+                use_vision=use_vision_flag,
                 demo_mode=True,
                 register_new_step_callback=self._on_step,
                 register_should_stop_callback=self._should_stop,
