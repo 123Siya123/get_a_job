@@ -254,6 +254,60 @@
       </div>
     </section>
 
+    <!-- AI Settings Panel -->
+    <section class="prompt-panel">
+      <h2>⚙️ AI Configuration</h2>
+      <p>Select your preferred AI provider and models. The agent uses the Planner model to strategize, the Browser model to understand UI elements, and the Classifier to score jobs.</p>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px;">
+        <div>
+          <label style="display: block; font-size: 0.85em; color: var(--muted); margin-bottom: 4px;">Provider</label>
+          <select id="aiProvider" style="width: 100%; padding: 8px; border-radius: 6px; background: rgba(0,0,0,0.3); border: 1px solid rgba(100,180,255,0.15); color: var(--text);">
+            <option value="local">Local Model (e.g. LM Studio)</option>
+            <option value="gemini">Google Gemini API</option>
+          </select>
+        </div>
+        
+        <div>
+          <label style="display: block; font-size: 0.85em; color: var(--muted); margin-bottom: 4px;">Planner Model</label>
+          <select id="aiPlannerModel" style="width: 100%; padding: 8px; border-radius: 6px; background: rgba(0,0,0,0.3); border: 1px solid rgba(100,180,255,0.15); color: var(--text);">
+            <option value="gemini-3.1-pro-preview">Gemini 3.1 Pro Preview</option>
+            <option value="gemini-3.1-flash-preview">Gemini 3.1 Flash Preview</option>
+            <option value="gemini-3.1-flash-lite-preview">Gemini 3.1 Flash Lite Preview</option>
+            <option value="gemini-3-flash-preview">Gemini 3 Flash Preview</option>
+            <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+          </select>
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 0.85em; color: var(--muted); margin-bottom: 4px;">Browser Model</label>
+          <select id="aiBrowserModel" style="width: 100%; padding: 8px; border-radius: 6px; background: rgba(0,0,0,0.3); border: 1px solid rgba(100,180,255,0.15); color: var(--text);">
+            <option value="gemini-3.1-pro-preview">Gemini 3.1 Pro Preview</option>
+            <option value="gemini-3.1-flash-preview">Gemini 3.1 Flash Preview</option>
+            <option value="gemini-3.1-flash-lite-preview">Gemini 3.1 Flash Lite Preview</option>
+            <option value="gemini-3-flash-preview">Gemini 3 Flash Preview</option>
+            <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+          </select>
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 0.85em; color: var(--muted); margin-bottom: 4px;">Classifier Model</label>
+          <select id="aiClassifierModel" style="width: 100%; padding: 8px; border-radius: 6px; background: rgba(0,0,0,0.3); border: 1px solid rgba(100,180,255,0.15); color: var(--text);">
+            <option value="gemini-3.1-pro-preview">Gemini 3.1 Pro Preview</option>
+            <option value="gemini-3.1-flash-preview">Gemini 3.1 Flash Preview</option>
+            <option value="gemini-3.1-flash-lite-preview">Gemini 3.1 Flash Lite Preview</option>
+            <option value="gemini-3-flash-preview">Gemini 3 Flash Preview</option>
+            <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="prompt-actions">
+        <button id="saveSettingsBtn" class="secondary" style="background: rgba(100,180,255,0.2); border: 1px solid rgba(100,180,255,0.4); color: var(--accent2);">💾 Save Configuration</button>
+        <span id="settingsSaved" style="color: var(--accent); font-size: 0.82em; opacity: 0; transition: opacity 0.3s;">✓ Configuration Saved</span>
+      </div>
+    </section>
+
     <section class="grid" id="stats"></section>
 
     <!-- LIVE Agent Brain -->
@@ -405,6 +459,38 @@
 
     document.getElementById('savePromptBtn').addEventListener('click', savePrompt);
 
+    // --- AI Settings ---
+    const providerEl = document.getElementById('aiProvider');
+    const plannerEl = document.getElementById('aiPlannerModel');
+    const browserEl = document.getElementById('aiBrowserModel');
+    const classifierEl = document.getElementById('aiClassifierModel');
+    const settingsSavedEl = document.getElementById('settingsSaved');
+
+    async function loadSettings() {
+      try {
+        const data = await fetch('/api/settings').then(r => r.json());
+        if (data.ai_provider) providerEl.value = data.ai_provider;
+        if (data.gemini_planner_model) plannerEl.value = data.gemini_planner_model;
+        if (data.gemini_browser_model) browserEl.value = data.gemini_browser_model;
+        if (data.gemini_classifier_model) classifierEl.value = data.gemini_classifier_model;
+      } catch {}
+    }
+
+    async function saveSettings() {
+      await fetch('/api/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ai_provider: providerEl.value,
+          gemini_planner_model: plannerEl.value,
+          gemini_browser_model: browserEl.value,
+          gemini_classifier_model: classifierEl.value
+        }),
+      });
+      settingsSavedEl.style.opacity = '1';
+      setTimeout(() => { settingsSavedEl.style.opacity = '0'; }, 2000);
+    }
+    document.getElementById('saveSettingsBtn').addEventListener('click', saveSettings);
     document.getElementById('startBtn').addEventListener('click', async () => {
       await savePrompt();  // auto-save prompt before starting
       await post('/api/agent/start');
@@ -425,6 +511,7 @@
     refresh();
     pollThoughts();
     loadPrompt();
+    loadSettings();
   </script>
 </body>
 </html>

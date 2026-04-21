@@ -11,6 +11,7 @@ from fastapi.templating import Jinja2Templates
 from jobapplyer.config import get_settings
 from jobapplyer.db import Database
 from jobapplyer.services.orchestrator import JobApplyerOrchestrator
+import re
 
 
 def create_app() -> FastAPI:
@@ -88,6 +89,48 @@ def create_app() -> FastAPI:
     async def agent_prompt_set(request: Request) -> JSONResponse:
         body = await request.json()
         request.app.state.orchestrator.set_user_prompt(body.get('prompt', ''))
+        return JSONResponse({'ok': True})
+
+    @app.get('/api/settings')
+    async def get_settings_api(request: Request) -> JSONResponse:
+        settings = request.app.state.settings
+        return JSONResponse({
+            'ai_provider': settings.ai_provider,
+            'gemini_planner_model': settings.gemini_planner_model,
+            'gemini_browser_model': settings.gemini_browser_model,
+            'gemini_classifier_model': settings.gemini_classifier_model,
+        })
+
+    @app.post('/api/settings')
+    async def set_settings_api(request: Request) -> JSONResponse:
+        body = await request.json()
+        settings = request.app.state.settings
+        
+        updates = {}
+        if 'ai_provider' in body:
+            settings.ai_provider = body['ai_provider']
+            updates['AI_PROVIDER'] = settings.ai_provider
+        if 'gemini_planner_model' in body:
+            settings.gemini_planner_model = body['gemini_planner_model']
+            updates['GEMINI_PLANNER_MODEL'] = settings.gemini_planner_model
+        if 'gemini_browser_model' in body:
+            settings.gemini_browser_model = body['gemini_browser_model']
+            updates['GEMINI_BROWSER_MODEL'] = settings.gemini_browser_model
+        if 'gemini_classifier_model' in body:
+            settings.gemini_classifier_model = body['gemini_classifier_model']
+            updates['GEMINI_CLASSIFIER_MODEL'] = settings.gemini_classifier_model
+
+        env_file = Path('.env.local')
+        if env_file.exists():
+            content = env_file.read_text('utf-8')
+            for k, v in updates.items():
+                pattern = re.compile(rf'^{k}=.*$', re.MULTILINE)
+                if pattern.search(content):
+                    content = pattern.sub(f'{k}={v}', content)
+                else:
+                    content += f'\n{k}={v}'
+            env_file.write_text(content, 'utf-8')
+            
         return JSONResponse({'ok': True})
 
     return app
