@@ -491,15 +491,18 @@
       setTimeout(() => { settingsSavedEl.style.opacity = '0'; }, 2000);
     }
     document.getElementById('saveSettingsBtn').addEventListener('click', saveSettings);
+    
     document.getElementById('startBtn').addEventListener('click', async () => {
-      await savePrompt();  // auto-save prompt before starting
+      await savePrompt();
+      await saveSettings();  // auto-save settings before starting
       await post('/api/agent/start');
       refresh();
     });
     document.getElementById('stopBtn').addEventListener('click', async () => { await post('/api/agent/stop'); refresh(); });
     document.getElementById('runBtn').addEventListener('click', async () => {
-      await savePrompt();  // auto-save prompt before running
-      post('/api/agent/run-once');
+      await savePrompt();
+      await saveSettings();  // auto-save settings before running
+      await post('/api/agent/run-once');
       refresh();
     });
 
